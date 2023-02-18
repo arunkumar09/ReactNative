@@ -1,4 +1,5 @@
-import { ScrollView, Card } from "react-native";
+import { ScrollView } from "react-native";
+import { Card } from 'react-native-elements';
 
 const AboutScreen = () => {
     return ( 
