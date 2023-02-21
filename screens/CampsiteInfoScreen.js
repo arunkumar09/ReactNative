@@ -1,11 +1,11 @@
-import RenderCampsite from '../features/campsites/RenderCampsite';
-import { useState } from 'react';
-import { COMMENTS } from '../shared/comments'
-import { FlatList, StyleSheet, Text, View } from 'react-native';
+import RenderCampsite from "../features/campsites/RenderCampsite";
+import { FlatList, StyleSheet, Text, View } from "react-native";
+import { useSelector } from "react-redux";
+import { useState } from "react";
 
 const CampsiteInfoScreen = ({ route }) => {
   const { campsite } = route.params;
-  const [comments, setComments] = useState(COMMENTS);
+  const comments = useSelector((state) => state.comments);
   const [favorite, setFavorite] = useState(false);
 
   const renderCommentItem = ({ item }) => {
@@ -15,26 +15,26 @@ const CampsiteInfoScreen = ({ route }) => {
         <Text style={{ fontSize: 12 }}>{item.rating} Stars</Text>
         <Text style={{ fontSize: 12 }}>{`--${item.author}, ${item.date}`}</Text>
       </View>
-    )
-  }
+    );
+  };
 
   return (
     <FlatList
-      data={comments.filter(
+      data={comments.commentsArray.filter(
         (comment) => comment.campsiteId === campsite.id
       )}
       renderItem={renderCommentItem}
       keyExtractor={(item) => item.campsiteId.toString()}
       contentContainerStyle={{
         marginHorizontal: 20,
-        paddingVertical: 20
+        paddingVertical: 20,
       }}
       ListHeaderComponent={
         <>
           <RenderCampsite
             campsite={campsite}
             isFavorite={favorite}
-            markFavorite={()=>setFavorite(true)}
+            markFavorite={() => setFavorite(true)}
           />
           <Text style={styles.commentsTitle}>Comments</Text>
         </>
@@ -45,19 +45,19 @@ const CampsiteInfoScreen = ({ route }) => {
 
 const styles = StyleSheet.create({
   commentsTitle: {
-    textAlign: 'center',
-    backgroundColor: '#fff',
+    textAlign: "center",
+    backgroundColor: "#fff",
     fontSize: 16,
-    fontWeight: 'bold',
-    color: '#43484D',
+    fontWeight: "bold",
+    color: "#43484D",
     padding: 10,
-    paddingTop: 39
+    paddingTop: 39,
   },
   commentItem: {
     paddingVertical: 10,
     paddingHorizontal: 30,
-    backgroundColor: '#fff'
-  }
-})
+    backgroundColor: "#fff",
+  },
+});
 
 export default CampsiteInfoScreen;
