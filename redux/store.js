@@ -33,12 +33,7 @@ export const store = configureStore({
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
       sereializableCheck: {
-        FLUSH,
-        REHYDRATE,
-        PAUSE,
-        PERSIST,
-        PURGE,
-        REGISTER,
+        ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
       },
     }),
 });

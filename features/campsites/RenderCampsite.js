@@ -3,10 +3,12 @@ import { Card, Icon } from "react-native-elements";
 import { baseUrl } from "../../shared/baseUrl";
 import * as Animatable from "react-native-animatable";
 import { useRef } from "react";
+import CampsiteInfoScreen from "../../screens/CampsiteInfoScreen";
 
 const RenderCampsite = (props) => {
   const { campsite } = props;
   const view = useRef();
+  const isRightSwipe = ({ dx }) => dx > 200;
   const isLeftSwipe = ({ dx }) => dx < -200;
   const panResponder = PanResponder.create({
     onStartShouldSetPanResponder: () => true,
@@ -43,6 +45,9 @@ const RenderCampsite = (props) => {
             },
           ]
         );
+      } else if (isRightSwipe(gestureState)) {
+        console.log("swipe right");
+        props.onShowModal();
       }
     },
   });
