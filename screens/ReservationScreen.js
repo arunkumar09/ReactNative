@@ -31,28 +31,30 @@ const ReservationScreen = () => {
     const message = `Number of Campers: ${campers}
                             \nHike-In? ${hikeIn}
                             \nDate: ${date.toLocaleDateString("en-US")}`;
-    Alert.alert(
-      "Begin Search?",
-      message,
-      [
-        {
-          text: "Cancel",
-          onPress: () => {
-            console.log("Reservation Search Canceled");
-            resetForm();
-          },
-          style: "cancel",
-        },
-        {
-          text: "OK",
-          onPress: () => {
-            presentLocalNotification(date.toLocaleDateString("en-US"));
-            resetForm();
-          },
-        },
-      ],
-      { cancelable: false }
-    );
+                            Alert.alert(
+                              "Begin Search?",
+                              message,
+                              [
+                                {
+                                  text: "Cancel",
+                                  onPress: () => {
+                                    console.log("Reservation Search Canceled");
+                                    resetForm();
+                                  },
+                                  style: "cancel",
+                                },
+                                {
+                                  text: "OK",
+                                  onPress: () => {
+                                    presentLocalNotification(
+                                      date.toLocaleDateString("en-US")
+                                    );
+                                    resetForm();
+                                  },
+                                },
+                              ],
+                              { cancelable: false }
+                            );
     console.log("campers:", campers);
     console.log("hikeIn:", hikeIn);
     console.log("date:", date);

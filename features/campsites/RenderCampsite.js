@@ -3,7 +3,6 @@ import { Card, Icon } from "react-native-elements";
 import { baseUrl } from "../../shared/baseUrl";
 import * as Animatable from "react-native-animatable";
 import { useRef } from "react";
-import CampsiteInfoScreen from "../../screens/CampsiteInfoScreen";
 
 const RenderCampsite = (props) => {
   const { campsite } = props;
@@ -24,14 +23,12 @@ const RenderCampsite = (props) => {
       if (isLeftSwipe(gestureState)) {
         Alert.alert(
           "Add Favorite",
-          "Are you sure you wish to add " +
-            campsite.name +
-            " to your favorites?",
+          "Are you sure you wish to add " + campsite.name + " to favorites?",
           [
             {
               text: "Cancel",
               style: "cancel",
-              onPress: () => console.log("cancel pressed"),
+              onPress: () => console.log("Cancel pressed"),
             },
             {
               text: "OK",
@@ -40,10 +37,10 @@ const RenderCampsite = (props) => {
                   ? console.log("Already set as a Favorite")
                   : props.markFavorite(),
             },
-            {
-              cancelable: false,
-            },
-          ]
+          ],
+          {
+            cancelable: false,
+          }
         );
       } else if (isRightSwipe(gestureState)) {
         console.log("swipe right");
@@ -64,7 +61,7 @@ const RenderCampsite = (props) => {
       }
     );
   };
-  
+
   if (campsite) {
     return (
       <Animatable.View
