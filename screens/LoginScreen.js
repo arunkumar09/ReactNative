@@ -6,7 +6,7 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import * as ImagePicker from "expo-image-picker";
 import { baseUrl } from "../shared/baseUrl";
 import logo from "../assets/images/logo.png";
-import { manipulateAsync, FlipType, SaveFormat } from "expo-image-manipulator";
+import { manipulateAsync, SaveFormat } from "expo-image-manipulator";
 
 const LoginTab = ({ navigation }) => {
   const [username, setUsername] = useState("");
@@ -141,25 +141,44 @@ const RegisterTab = () => {
 
   const getImageFromCamera = async () => {
     const cameraPermission = await ImagePicker.requestCameraPermissionsAsync();
+
     if (cameraPermission.status === "granted") {
-      const capturedImage = await ImagePicker.launchCameraAsync();
-      ({
+      const capturedImage = await ImagePicker.launchCameraAsync({
         allowsEditing: true,
         aspect: [1, 1],
       });
-      if (capturedImage.assets) {
-        console.log(capturedImage.assets[0]);
+      console.log(capturedImage);
+      if (!capturedImage.cancelled) {
+        console.log("captured image: ", capturedImage);
         processImage(capturedImage.uri);
       }
     }
   };
+
+  const getImageFromGallery = async () => {
+    const mediaLibraryPermissions =
+      await ImagePicker.requestCameraPermissionsAsync();
+
+    if (mediaLibraryPermissions.status === "granted") {
+      const capturedImage = await ImagePicker.launchImageLibraryAsync({
+        allowsEditing: true,
+        aspect: [1, 1],
+      });
+      console.log(capturedImage);
+      if (!capturedImage.cancelled) {
+        console.log("captured gallery image: ", capturedImage);
+        processImage(capturedImage.uri);
+      }
+    }
+  };
+
   const processImage = async (imgUri) => {
-    const processedImage = await ImageManipulator.manipulateAsync(
-      imgUri.localUri || imgUri.uri,
-      [{ width: 400 }],
+    const processedImage = await manipulateAsync(
+      imgUri,
+      [{ resize: { width: 400 } }],
       { format: SaveFormat.PNG }
     );
-    console.log(processedImage);
+    console.log("processed image: ", processedImage);
     setImageUrl(processedImage.uri);
   };
 
@@ -175,6 +194,10 @@ const RegisterTab = () => {
           <Button
             title="Camera"
             onPress={getImageFromCamera}
+          />
+         <Button
+            title="Gallery"
+            onPress={getImageFromGallery}
           />
         </View>
         <Input
